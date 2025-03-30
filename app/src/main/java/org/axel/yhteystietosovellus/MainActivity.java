@@ -69,9 +69,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Collections.sort(contacts, (c1, c2) -> {
-            if (c1.getContactGroup() == null) return 1;
-            if (c2.getContactGroup() == null) return -1;
-            return c1.getContactGroup().compareToIgnoreCase(c2.getContactGroup());
+            String g1 = c1.getContactGroup();
+            String g2 = c2.getContactGroup();
+
+            if (g1.equals(g2)) return 0;
+            if (g1.equals("Työ")) return -1;
+            if (g2.equals("Työ")) return 1;
+            return g1.compareToIgnoreCase(g2);
         });
 
         contactAdapter.notifyDataSetChanged();
