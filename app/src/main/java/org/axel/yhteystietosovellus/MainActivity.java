@@ -59,14 +59,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void sortByGroup(View view) {
         ArrayList<Contact> contacts = ContactStorage.getInstance().getContacts();
-        Collections.sort(contacts, (c1, c2) -> {
-            Iterator<Contact> iterator = Arrays.asList(c1, c2).iterator();
-            while (iterator.hasNext()) {
-                Contact current = iterator.next();
-                if (current.getContactGroup() == null) return -1;
+
+        Iterator<Contact> iterator = contacts.iterator();
+        while (iterator.hasNext()) {
+            Contact c = iterator.next();
+            if (c.getContactGroup() == null) {
+                c.contactGroup = "";
             }
+        }
+
+        Collections.sort(contacts, (c1, c2) -> {
+            if (c1.getContactGroup() == null) return 1;
+            if (c2.getContactGroup() == null) return -1;
             return c1.getContactGroup().compareToIgnoreCase(c2.getContactGroup());
         });
+
         contactAdapter.notifyDataSetChanged();
     }
 }
